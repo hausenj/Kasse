@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.uni.hausenj</groupId>
+    <artifactId>cash-desk-scanner</artifactId>
+    <version>0.1.0</version><!--project-version-->
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>cash-desk-scanner-api</module>
+        <!--module>cash-desk-scanner-core</module-->
+        <module>cash-desk-scanner-rest-services</module>
+        <!--module>cash-desk-scanner-persistence-services</module-->
+        <!--module>cash-desk-scanner-scanner-services</module-->
+        <module>cash-desk-scanner-application</module>
+    </modules>
+
+    <properties>
+        <spring-boot.version>3.4.3</spring-boot.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>build-it</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.14.0</version>
+                        <configuration>
+                            <source>${maven.compiler.source}</source>
+                            <target>${maven.compiler.target}</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.8.1</version>
+                        <executions>
+                            <execution>
+                                <id>create-dependency-tree</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>tree</goal>
+                                </goals>
+                                <configuration>
+                                    <outputType>text</outputType>
+                                    <outputFile>${project.build.directory}/classes/maven/${project.groupId}/${project.artifactId}/dependency-tree.txt</outputFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-help-plugin</artifactId>
+                        <version>3.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>create-effective-pom</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>effective-pom</goal>
+                                </goals>
+                                <configuration>
+                                    <output>${project.build.directory}/classes/maven/${project.groupId}/${project.artifactId}/effective-pom.xml</output>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+               </plugins>
+           </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+        </pluginManagement>
+    </build>
+</project>
